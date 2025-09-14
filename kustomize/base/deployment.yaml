@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swimlane-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swimlane-app
+  template:
+    metadata:
+      labels:
+        app: swimlane-app
+    spec:
+      containers:
+        - name: swimlane-app
+          image: swimlane-devops-practical:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URL
+              value: "mongodb://root:password@mongo:27017/database?authSource=admin"

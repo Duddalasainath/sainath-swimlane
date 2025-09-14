@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.mongo.name }}
+spec:
+  serviceName: {{ .Values.mongo.name }}
+  replicas: {{ .Values.mongo.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.mongo.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongo.name }}
+    spec:
+      containers:
+        - name: {{ .Values.mongo.name }}
+          image: {{ .Values.mongo.image }}
+          ports:
+            - containerPort: {{ .Values.mongo.servicePort }}
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: {{ .Values.mongo.username }}
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: {{ .Values.mongo.password }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mongo.name }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.mongo.servicePort }}
+  selector:
+    app: {{ .Values.mongo.name }}

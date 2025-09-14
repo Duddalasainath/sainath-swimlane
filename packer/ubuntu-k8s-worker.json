@@ -1,0 +1,17 @@
+{
+"builders": [
+{
+"type": "googlecompute",
+"project_id": "YOUR_PROJECT",
+"source_image": "ubuntu-2004-focal-v202...",
+"zone": "us-central1-a",
+"machine_type": "n1-standard-1"
+}
+],
+"provisioners": [
+{
+"type": "shell",
+"script": "scripts/setup-k8s-deps.sh"
+}
+]
+}

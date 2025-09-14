@@ -1,0 +1,21 @@
+- hosts: all
+become: yes
+tasks:
+- name: Ensure chrony installed
+package:
+name: chrony
+state: present
+
+
+- name: Ensure chrony service enabled and started
+service:
+name: chrony
+state: started
+enabled: yes
+
+
+- name: Ensure timesyncd fallback (for systems without chrony)
+package:
+name: systemd-timesyncd
+state: present
+when: ansible_distribution == 'Ubuntu'
